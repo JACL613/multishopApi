@@ -2,3 +2,20 @@ GET http://localhost:3000/api/usuario/
 Content-Type : application/json
 
 {}  
+
+### Obtener todos los pedidos
+GET http://localhost:3000/api/pedidos
+
+
+### realizar pedidos
+POST http://localhost:3000/api/pedidos
+Content-Type : application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTY4ODcxLCJleHAiOjE3MzI1NzI0NzF9.LuZZ8BbBstHGoiuM4XztJr0sxrZa1asUGzV3dRQA8fk
+
+{
+    "status":"pending",
+    "payout":true,
+    "additional_info":"",
+    "user":"",
+    "product":""
+}
