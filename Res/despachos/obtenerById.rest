@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/despachos/6744e62e11411b4a4360fa64
+Content-Type : application/json
+
+{}

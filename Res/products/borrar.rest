@@ -1,7 +1,5 @@
-POST http://localhost:3000/api/categorias/
+DELETE http://localhost:3000/api/productos/6744dcbe7244b3b139394a6c
 Content-Type : application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTY0NjM4LCJleHAiOjE3MzI1NjgyMzh9.xxbfY2M0F3w7hi8muUdQ4V_0M0aV6bfH31qYgkUJmEk
 
-{
-    "name":"Ropa"
-} 
+{}
