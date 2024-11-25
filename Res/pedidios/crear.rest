@@ -1,0 +1,12 @@
+### realizar pedidos
+POST http://localhost:3000/api/pedidos
+Content-Type : application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTczNjg5LCJleHAiOjE3MzI1NzcyODl9.lz_eJDruRQx-bTW9PswM9SeA0d-hzFbxIm7zc1rBUMA
+
+{
+    "status":"pending",
+    "payout":true,
+    "additional_info":"6744e32cda4deced1ab76c69",
+    "user":"6741517ee9d1ccd62b9de181",
+    "product":"6744d7f886f7082aa6d5d474"
+}

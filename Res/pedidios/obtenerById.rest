@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/pedidos/6744fa1e30f4b7bf69087e2b

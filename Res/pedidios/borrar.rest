@@ -1,0 +1,2 @@
+DELETE http://localhost:3000/api/pedidos/6744fa1e30f4b7bf69087e2b
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTczNjg5LCJleHAiOjE3MzI1NzcyODl9.lz_eJDruRQx-bTW9PswM9SeA0d-hzFbxIm7zc1rBUMA

@@ -70,6 +70,7 @@ route.put('/:id', authMiddleware, async (req, res) => {
         try {
             const query = await Orders.findByIdAndUpdate(id, {...data})
             if(!query) return res.status(404).json({ message: "No se pudo actualizar el pedido"})
+            return res.status(200).json({message: "Pedido actualizado", data: query})
         } catch (error) {
         return res.json({ message: `Error: ${error.message}`, status: 500 }); 
         }
