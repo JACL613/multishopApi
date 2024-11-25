@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/despachos/
+Content-Type : application/json
+
+{
+    "name": "Prueba100",
+    "name_receiver": "Prueba",
+    "city": "Prueba",
+    "department": "Prueba",
+    "district":  "Prueba",
+    "address":  "Prueba",
+    "user": "6741517ee9d1ccd62b9de181"
+}
