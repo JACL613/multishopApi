@@ -31,7 +31,7 @@ route.get("/:id", async (req, res) => {
   }
 });
 
-route.post("/",authMiddleware, async (req, res) => {
+route.post("/", authMiddleware, async (req, res) => {
   const {
     title,
     description,
@@ -68,30 +68,36 @@ route.post("/",authMiddleware, async (req, res) => {
 });
 
 route.put("/:id", authMiddleware, async (req, res) => {
-    const { id } = req.params
-    const {data} = req.body
+  const { id } = req.params;
+  const { data } = req.body;
   if (!id || !data) return res.status(401).json({ message: "Faltan datos" });
-    try {
-        const query = await Products.findByIdAndUpdate(id, {...data})
-        if(!query) return res.status(404).json({ message: "No se pudo actualizar el producto"})
-    } catch (error) {
-    return res.json({ message: `Error: ${error.message}`, status: 500 });
-        
-    }
-});
-
-route.delete("/:id", authMiddleware,async (req, res) => {
-const {id} = req.params
-  if (!id ) return res.status(401).json({ message: "Faltan datos" });
   try {
-    const query = await Products.findByIdAndDelete(id)
-    if(!query) return res.status(404).json({ message: "No se pudo eliminar el producto"})
-    return res.status(200).json({ message:"Producto eleiinado", data: query})
+    const query = await Products.findByIdAndUpdate(id, { ...data });
+    if (!query)
+      return res
+        .status(404)
+        .json({ message: "No se pudo actualizar el producto" });
+    return res
+      .status(200)
+      .json({ message: "Producto actualizado con exito", data: query });
   } catch (error) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
-    
   }
+});
 
+route.delete("/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.status(401).json({ message: "Faltan datos" });
+  try {
+    const query = await Products.findByIdAndDelete(id);
+    if (!query)
+      return res
+        .status(404)
+        .json({ message: "No se pudo eliminar el producto" });
+    return res.status(200).json({ message: "Producto eleiinado", data: query });
+  } catch (error) {
+    return res.json({ message: `Error: ${error.message}`, status: 500 });
+  }
 });
 
 module.exports = route;

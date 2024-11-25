@@ -12,7 +12,7 @@ const path = require('path');
 
 require('./databases/connectionDb.js')
 
-const app = express();
+const app = express(); 
 const PORT = 3000;
 
 
@@ -30,8 +30,8 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 app.use(cors()) 
 
 // Rutas
-// app.use('/api/productos' , routesProductos )
-// app.use('/api/despachos', routesDespachos)
+app.use('/api/productos' , routesProductos )
+app.use('/api/despachos', routesDespachos)
 // app.use('/api/pedidos', routesPedidos)
 app.use('/api/categorias', routesCategorias)
 app.use('/api/usuario' , routesUsuario )

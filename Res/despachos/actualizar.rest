@@ -1,0 +1,14 @@
+PUT http://localhost:3000/api/despachos/6744e32cda4deced1ab76c69
+Content-Type : application/json
+
+{
+    "data":{
+        "name": "Prueba123",
+        "name_receiver": "Prueba123",
+        "city": "Prueba",
+        "department": "Prueba",
+        "district":  "Prueba",
+        "address":  "Prueba",
+        "user": "6741517ee9d1ccd62b9de181"
+    }
+}
