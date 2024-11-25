@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/categorias/6742479450548c901baf1796/
+Content-Type : application/json
+
+{} 

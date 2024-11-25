@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/categorias/
+Content-Type : application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyMzk2NTU0LCJleHAiOjE3MzI0MDAxNTR9.yxWqJdERB9m9ncFY1QicLvdvzN_BgF--MqApp9HV_3M
+
+{
+    "name": "Portatiles"
+} 

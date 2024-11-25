@@ -1,0 +1,12 @@
+PUT http://localhost:3000/api/usuario/6741576aded048700d736bbc
+Content-Type : application/json
+
+{
+    "data":{
+    "username":"cliente",
+    "name":"Alexis",
+    "email":"admin@pendientes.com",
+    "password":"admin321",
+    "role":"user"
+    }
+} 
