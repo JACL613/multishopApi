@@ -25,7 +25,8 @@ const PORT = 3000;
 app.use(express.static(path.join(__dirname, 'dist')));
 morgan.token('body', (req) => JSON.stringify(req.body)); 
 morgan.token('headers', (req) => JSON.stringify(req.headers)); 
-    
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body :headers'));
 app.use(cors()) 
 
