@@ -1,15 +1,16 @@
 POST http://localhost:3000/api/productos/
 Content-Type : application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTY0NjM4LCJleHAiOjE3MzI1NjgyMzh9.xxbfY2M0F3w7hi8muUdQ4V_0M0aV6bfH31qYgkUJmEk
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW ------WebKitFormBoundary7MA4YWxkTrZu0gW Content-Disposition: form-data; name="image"; filename="test-image.jpg" Content-Type: image/jpeg < C:\Users\Alexander\OneDrive\Imágenes\R (1).jpg ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyNTkxNjA0LCJleHAiOjE3MzI1OTUyMDR9.QOewnGmxqcJz311QsBOpvgkeyy6iEoV9MEamBwklfdk
 
 {
-    "title": "Producto Prueba",
-    "description": "Prendas prueba",
-    "image": "../img",
+    "title":"Producto Prueba",
+    "description":"Prendas prueba",
+    "image":"../img",
     "status": true,
-    "alt": "Prueba",
-    "link": "",
-    "price": 180000,
-    "amount": 26,
-    "category": "6744d74086f7082aa6d5d472"
+    "alt":"Prueba",
+    "link":"",
+    "price":180000,
+    "amount":26,
+    "category":"6744d74086f7082aa6d5d472"
   }
