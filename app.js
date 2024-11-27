@@ -9,6 +9,7 @@ const routesDespachos = require('./routes/route_despachos.js')
 const routesPedidos = require('./routes/route_pedidos.js')
 const routesUsuario = require('./routes/route_usuario.js')
 const path = require('path');
+const errorHandler = require('./middleware/controller_errors.js')
 
 require('./databases/connectionDb.js')
 
@@ -29,6 +30,7 @@ morgan.token('headers', (req) => JSON.stringify(req.headers));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body :headers'));
 app.use(cors()) 
+app.use(errorHandler)
 
 // Rutas
 app.use('/api/productos' , routesProductos )
@@ -36,6 +38,7 @@ app.use('/api/despachos', routesDespachos)
 app.use('/api/pedidos', routesPedidos)
 app.use('/api/categorias', routesCategorias)
 app.use('/api/usuario' , routesUsuario )
+
 // app.get('/', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 // });

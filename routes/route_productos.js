@@ -1,6 +1,7 @@
 const Products = require("../databases/models/productos_schema");
 const authMiddleware = require("../middleware/controller_user");
 const upload = require("../multer-config");
+const { MulterError } = require("multer");
 
 const route = require("express").Router();
 
@@ -32,7 +33,7 @@ route.get("/:id", async (req, res) => {
   }
 });
 
-route.post("/", authMiddleware, upload.single('image'), async (req, res) => {
+route.post("/", authMiddleware, upload, async (req, res) => {
   const {
     title,
     description,
@@ -44,17 +45,20 @@ route.post("/", authMiddleware, upload.single('image'), async (req, res) => {
     amount,
     category,
   } = req.body;
-  if (!title || !description || !image || !price || !amount || !category)
+  if (!title || !description || !link || !price || !amount || !category)
     return res.status(401).json({ message: "Faltan datos" });
-   // Asegúrate de que la imagen se haya subido correctamente
-   if (!req.file) {
-    return res.status(400).json({ message: 'Se requiere una imagen para el producto' });
+  // Asegúrate de que la imagen se haya subido correctamente
+  if (!req.file) {
+    return res
+      .status(400)
+      .json({ message: "Se requiere una imagen para el producto" });
   }
 
   // Obtener el dominio del entorno actual (localhost para desarrollo o el dominio en producción)
-  const baseUrl = process.env.NODE_ENV === 'production' 
-    ? 'https://dominio.com'  // Cambia esto por tu dominio real en producción
-    : 'http://localhost:3000'; // Para desarrollo, usa localhost o el puerto que tengas
+  const baseUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://dominio.com" // Cambia esto por tu dominio real en producción
+      : "http://localhost:3000"; // Para desarrollo, usa localhost o el puerto que tengas
 
   // Crear la URL completa de la imagen
   const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
@@ -62,7 +66,7 @@ route.post("/", authMiddleware, upload.single('image'), async (req, res) => {
     const query = await Products.create({
       title,
       description,
-      image:imageUrl,
+      image: imageUrl,
       status,
       alt,
       link,
@@ -80,25 +84,55 @@ route.post("/", authMiddleware, upload.single('image'), async (req, res) => {
   }
 });
 
-route.post('/upload', upload.single('image'), async (req, res) => {
-  // Asegúrate de que la imagen se haya subido correctamente
-  if (!req.file) {
-    return res.status(400).json({ message: 'Se requiere una imagen para el producto' });
+route.post(
+  "/upload",
+  function (req, res, next) {
+    upload(req, res, (err) => {
+      console.log("upload in callback>>>>>>>", err);
+      if (err instanceof MulterError) {
+        // A Multer error occurred when uploading.
+        return next(err);
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        return next(err);
+      }
+      next();
+    });
+  },
+  async (req, res) => {
+    
+    try {
+      // Verifica si el archivo fue subido correctamente
+      if (!req.file) {
+        return res.status(400).json({ error: "No se subió ningún archivo." });
+      }
+
+      // upload.single('file'), (req, res) => {
+      //   res.status(200).json({ message: 'Archivo subido correctamente', file: req.file });
+      // // Respuesta de éxito
+      // }
+    } catch (err) {
+      // Captura cualquier error inesperado
+      console.error("Error al procesar la carga:", err.message);
+      return res
+        .status(500)
+        .json({ error: "Ocurrió un error al subir el archivo." });
+    }
+    // Verificar si el directorio existe, si no, crearlo const
+    // uploadDir = path.join(__dirname, 'uploads');
+    // if (!fs.existsSync(uploadDir)) {fs.mkdirSync(uploadDir); }
+
+    // Obtener el dominio del entorno actual (localhost para desarrollo o el dominio en producción)
+    const baseUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://dominio.com" // Cambia esto por tu dominio real en producción
+        : "http://localhost:3000"; // Para desarrollo, usa localhost o el puerto que tengas
+
+    // Crear la URL completa de la imagen
+    const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
+    return res.status(200).json({ message: "imagen subida", url: imageUrl });
   }
-
-  // Verificar si el directorio existe, si no, crearlo const 
-  // uploadDir = path.join(__dirname, 'uploads'); 
-  // if (!fs.existsSync(uploadDir)) {fs.mkdirSync(uploadDir); }
-
-  // Obtener el dominio del entorno actual (localhost para desarrollo o el dominio en producción)
-  const baseUrl = process.env.NODE_ENV === 'production' 
-    ? 'https://dominio.com'  // Cambia esto por tu dominio real en producción
-    : 'http://localhost:3000'; // Para desarrollo, usa localhost o el puerto que tengas
-
-  // Crear la URL completa de la imagen
-  const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
-  return res.status(200).json({message: "imagen subida" , url: imageUrl});
-})
+);
 route.put("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { data } = req.body;

@@ -84,6 +84,7 @@ route.post("/login",async (req, res) => {
     return res.json({ message: "faltan datos", status: 401 });
   try {
     const user = await Users.findOne({username})
+    if(!user) return res.status(404).json({ message: "No se encuentra el usuario registrado "})
     const hash = JSON.parse(user.password)
     
     const passwordDecrypt = decrypt(hash)
@@ -95,7 +96,7 @@ route.post("/login",async (req, res) => {
       expiresIn: "1h",
     });
     // Enviar el token al cliente
-    res.json({ ...user._doc ,password:null,token });
+    res.status(200).json({status:200, message:"Usuario logueado" ,data: { ...user._doc ,password:null,token }});
   } else {
     res.status(401).json({ message: "Credenciales incorrectas" });
   }
