@@ -13,6 +13,5 @@ const UsuarioSchema = new Schema({
     
 })
 
-const Users = model('Users' ,UsuarioSchema)
+export const Users = model('Users' ,UsuarioSchema)
 
-module.exports = Users

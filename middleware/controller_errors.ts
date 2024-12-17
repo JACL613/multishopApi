@@ -1,5 +1,5 @@
 // middleware/errorHandler.js
-const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err: { message: any; stack: any; status: any; }, req: any, res: { headersSent: any; status: (arg0: any) => { (): any; new(): any; json: { (arg0: { success: boolean; error: any; }): any; new(): any; }; }; }, next: () => void) => {
     // Loguea el error en la consola con más detalles
     console.error(`Error: ${err.message}`);
     console.error(err.stack);
@@ -16,5 +16,4 @@ const errorHandler = (err, req, res, next) => {
     next();
   };
   
-  module.exports = errorHandler;
   

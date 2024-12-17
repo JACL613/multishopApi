@@ -10,6 +10,4 @@ const PedidosSchema = new Schema(
     product: {type: mongoose.Types.ObjectId, ref: 'Products', required: true},
 }
 )
-const Orders = model('Orders' , PedidosSchema)
-
-module.exports = Orders
+export const Orders = model('Orders' , PedidosSchema)

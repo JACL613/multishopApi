@@ -6,6 +6,5 @@ const CategorysSchema = new Schema( {
     products: {type: [mongoose.Types.ObjectId], ref: 'Products'}
 })
 
-const Categorys =  model( 'Categorys',CategorysSchema)
+export const Categorys =  model( 'Categorys',CategorysSchema)
 
-module.exports = Categorys

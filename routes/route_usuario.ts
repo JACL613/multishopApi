@@ -1,10 +1,10 @@
 const Users = require("../databases/models/usuario_schema");
-const jwt = require('jsonwebtoken')
+const {jwt:jwtR} = require('jsonwebtoken')
 const { encrypt, decrypt } = require("../lib/utils");
 
-const route = require("express").Router();
+const routeUsuario = require("express").Router();
 
-route.get("/", async (req, res) => {
+routeUsuario.get("/", async (req: any, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
   try {
     const query = await Users.find();
 
@@ -16,12 +16,12 @@ route.get("/", async (req, res) => {
       data: query,
       status: 200,
     });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.get("/:id", async (req, res) => {
+routeUsuario.get("/:id", async (req: { params: { id: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
   const { id } = req.params;
   if (!id) return res.json({ message: "faltan datos", status: 401 });
   try {
@@ -29,12 +29,12 @@ route.get("/:id", async (req, res) => {
     if (!query || query.length < 1)
       return res.json({ message: "No se encontro el usuario", status: 404 });
     return res.json({ message: "usuario encontrado", status: 200, data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.post("/", async (req, res) => {
+routeUsuario.post("/", async (req: { body: { username: any; name: any; email: any; password: any; role: any; created_at: any; wallet: any; config_despatch: any; orders: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
   const {
     username,
     name,
@@ -72,12 +72,12 @@ route.post("/", async (req, res) => {
       message: "Usuario registrado",
       data: query,
     });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.post("/login",async (req, res) => {
+routeUsuario.post("/login",async (req: { body: { username: any; password: any; }; }, res: { json: (arg0: { message: string; status: number; }) => any; status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; status?: number; data?: any; }): void; new(): any; }; }; }) => {
   const { username, password } = req.body;
   const secretKey = process.env.SECRETKEY
   if(!username || !password) 
@@ -100,13 +100,13 @@ route.post("/login",async (req, res) => {
   } else {
     res.status(401).json({ message: "Credenciales incorrectas" });
   }
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
     
   }
 });
 
-route.put("/:id", async (req, res) => {
+routeUsuario.put("/:id", async (req: { params: { id: any; }; body: { data: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
   const { id } = req.params;
   const { data } = req.body;
   if (!id || !data) return res.json({ message: "faltan datos", status: 401 });
@@ -115,12 +115,12 @@ route.put("/:id", async (req, res) => {
     if (query.length < 0)
       return res.json({ message: "No se encontro el usuario", status: 404 });
     return res.json({ message: "Usuario actualizado", status: 200, data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.delete("/:id", async (req, res) => {
+routeUsuario.delete("/:id", async (req: { params: { id: any; }; }, res: { json: (arg0: { message: string; status: number; }) => any; }) => {
   const { id } = req.params;
 
   try {
@@ -129,9 +129,9 @@ route.delete("/:id", async (req, res) => {
       return res.json({ message: "No se pudo borrar el usuario", status: 400 });
 
     return res.json({ message: "Usuario eliminado", status: 200 });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-module.exports = route;
+module.exports = routeUsuario;

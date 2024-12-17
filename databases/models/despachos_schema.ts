@@ -10,6 +10,4 @@ const DespachosSchema = new Schema({
     user: {type: mongoose.Types.ObjectId, ref : 'Users', required: true},    
 })
 
-const Despatchs = model('Despatchs' , DespachosSchema )
-
-module.exports = Despatchs
+export const Despatchs = model('Despatchs' , DespachosSchema )

@@ -12,6 +12,5 @@ const ProductosSchema = new Schema ({
     category: {type: mongoose.Types.ObjectId, ref: 'Categorys'},
 })
 
-const Products = model('Products', ProductosSchema)
+export const Products = model('Products', ProductosSchema)
 
-module.exports = Products

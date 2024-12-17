@@ -1,9 +1,9 @@
-const Categorys = require("../databases/models/categorias_schema");
-const authMiddleware = require("../middleware/controller_user");
+const {Categorys} = require("../databases/models/categorias_schema");
+const {authMiddleware: authMiddlewareCategorias } = require("../middleware/controller_user");
 
-const route = require("express").Router();
+const routeCategorias = require("express").Router();
 
-route.get("/", async (req, res) => {
+routeCategorias.get("/", async (req: any, res: { json: (arg0: { status: number; message: string; data?: any; }) => any; }) => {
   try {
     const query = await Categorys.find();
 
@@ -18,11 +18,12 @@ route.get("/", async (req, res) => {
       message: "Categorias encontradas",
       data: query,
     });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
+
   }
 });
-route.get("/:id", async (req, res) => {
+routeCategorias.get("/:id", async (req: { params: { id: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
   const { id } = req.params;
 
   if (!id) return res.json({ message: "faltan datos", status: 401 });
@@ -38,12 +39,12 @@ route.get("/:id", async (req, res) => {
       message: "Categoria encontrada",
       data: query,
     });
-  } catch (error) {
+  } catch (error:string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.post("/", authMiddleware, async (req, res) => {
+routeCategorias.post("/", authMiddlewareCategorias, async (req: { body: { name: any; }; }, res: { json: (arg0: { message: string; status: number; }) => any; status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data: any; }): any; new(): any; }; }; }) => {
   const { name } = req.body;
   if (!name) return res.json({ message: "faltan datos", status: 401 });
 
@@ -52,12 +53,12 @@ route.post("/", authMiddleware, async (req, res) => {
     if (!query)
       return res.json({ status: 404, message: "No se pudo registrar" });
     return res.status(200).json({ message:"Categoria registrado", data:query})
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.put("/:id", authMiddleware, async (req, res) => {
+routeCategorias.put("/:id", authMiddlewareCategorias, async (req: { params: { id: any; }; body: { data: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
     const {id} = req.params
     const {data} = req.body
   if (!id || !data) return res.json({ message: "faltan datos", status: 401 });
@@ -65,13 +66,13 @@ route.put("/:id", authMiddleware, async (req, res) => {
         const query = await Categorys.findByIdAndUpdate(id, {...data})
         if(!query) return res.json({status: 404, message: "No se pudo actualizar"})
         return res.json({status: 200 , message: "Categoria actualizada",data: query})
-    } catch (error) {
+    } catch (error : string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
         
     } 
 });
 
-route.delete("/:id", authMiddleware, async (req, res) => {
+routeCategorias.delete("/:id", authMiddlewareCategorias, async (req: { params: { id: any; }; }, res: { json: (arg0: { message: string; status: number; data?: any; }) => any; }) => {
     const {id} = req.params
   
     if (!id) return res.json({ message: "faltan datos", status: 401 });
@@ -79,10 +80,10 @@ route.delete("/:id", authMiddleware, async (req, res) => {
         const query = await Categorys.findByIdAndDelete(id)
         if(!query) return res.json({ message: "No se pudo borrar", status: 404 });
     return res.json({ message:"Categoria borrada", status: 200 , data: query});
-    } catch (error) {
+    } catch (error:string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
         
     }
 });
 
-module.exports = route;
+module.exports = routeCategorias;

@@ -1,11 +1,11 @@
-const Products = require("../databases/models/productos_schema");
-const authMiddleware = require("../middleware/controller_user");
-const upload = require("../multer-config");
+const {Products} = require("../databases/models/productos_schema");
+const {authMiddleware:authMiddlewareProductos} = require("../middleware/controller_user");
+const {upload} = require("../multer-config");
 const { MulterError } = require("multer");
 
-const route = require("express").Router();
+const routeProductos = require("express").Router();
 
-route.get("/", async (req, res) => {
+routeProductos.get("/", async (req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data?: any; }): any; new(): any; }; }; json: (arg0: { message: string; status: number; }) => any; }) => {
   try {
     const query = await Products.find({});
     if (!query || query.length <= 0)
@@ -13,11 +13,11 @@ route.get("/", async (req, res) => {
     return res
       .status(200)
       .json({ message: "Producto encontrados", data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
-route.get("/:id", async (req, res) => {
+routeProductos.get("/:id", async (req: { params: { id: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data?: any; }): any; new(): any; }; }; json: (arg0: { message: string; status: number; }) => any; }) => {
   const { id } = req.params;
 
   if (!id) return res.status(401).json({ message: "Faltan datos" });
@@ -28,12 +28,19 @@ route.get("/:id", async (req, res) => {
     return res
       .status(200)
       .json({ message: "Producto encontrado", data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
+if (typeof authMiddlewareProductos !== 'function') {
+  throw new Error('authMiddlewareProductos is not a function' + typeof authMiddlewareProductos);
+}
+if (typeof upload.single !== 'function') {
+  throw new Error('upload.single is not a function');
+}
 
-route.post("/", authMiddleware, upload, async (req, res) => {
+
+routeProductos.post("/", [authMiddlewareProductos, upload.single], async (req: { body: { title: any; description: any; image: any; status: any; alt: any; link: any; price: any; amount: any; category: any; }; file: { filename: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data?: any; }): any; new(): any; }; }; json: (arg0: { message: string; status: number; }) => any; }) => {
   const {
     title,
     description,
@@ -79,15 +86,15 @@ route.post("/", authMiddleware, upload, async (req, res) => {
         .status(404)
         .json({ message: "No se pudo registrar el producto" });
     return res.status(200).json({ message: "Producto creado", data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.post(
+routeProductos.post(
   "/upload",
-  function (req, res, next) {
-    upload(req, res, (err) => {
+  function (req: any, res: any, next: (arg0: undefined) => void) {
+    upload(req, res, (err: any) => {
       console.log("upload in callback>>>>>>>", err);
       if (err instanceof MulterError) {
         // A Multer error occurred when uploading.
@@ -96,10 +103,10 @@ route.post(
         // An unknown error occurred when uploading.
         return next(err);
       }
-      next();
+      next(undefined);
     });
   },
-  async (req, res) => {
+  async (req: { file: { filename: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: string; message?: string; url?: string; }): any; new(): any; }; }; }) => {
     
     try {
       // Verifica si el archivo fue subido correctamente
@@ -111,7 +118,7 @@ route.post(
       //   res.status(200).json({ message: 'Archivo subido correctamente', file: req.file });
       // // Respuesta de éxito
       // }
-    } catch (err) {
+    } catch (err: string | any) {
       // Captura cualquier error inesperado
       console.error("Error al procesar la carga:", err.message);
       return res
@@ -133,7 +140,7 @@ route.post(
     return res.status(200).json({ message: "imagen subida", url: imageUrl });
   }
 );
-route.put("/:id", authMiddleware, async (req, res) => {
+routeProductos.put("/:id", authMiddlewareProductos, async (req: { params: { id: any; }; body: { data: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data?: any; }): any; new(): any; }; }; json: (arg0: { message: string; status: number; }) => any; }) => {
   const { id } = req.params;
   const { data } = req.body;
   if (!id || !data) return res.status(401).json({ message: "Faltan datos" });
@@ -146,12 +153,12 @@ route.put("/:id", authMiddleware, async (req, res) => {
     return res
       .status(200)
       .json({ message: "Producto actualizado con exito", data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-route.delete("/:id", authMiddleware, async (req, res) => {
+routeProductos.delete("/:id", authMiddlewareProductos, async (req: { params: { id: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; data?: any; }): any; new(): any; }; }; json: (arg0: { message: string; status: number; }) => any; }) => {
   const { id } = req.params;
   if (!id) return res.status(401).json({ message: "Faltan datos" });
   try {
@@ -161,9 +168,9 @@ route.delete("/:id", authMiddleware, async (req, res) => {
         .status(404)
         .json({ message: "No se pudo eliminar el producto" });
     return res.status(200).json({ message: "Producto eleiinado", data: query });
-  } catch (error) {
+  } catch (error: string | any) {
     return res.json({ message: `Error: ${error.message}`, status: 500 });
   }
 });
 
-module.exports = route;
+module.exports = routeProductos;

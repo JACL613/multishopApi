@@ -5,7 +5,7 @@ mongoose.connect(`${conecctionString}`)
   .then(() => {
     console.log('Data bases Listening')
   })
-  .catch(err => {
+  .catch((err: { message: any }) => {
     console.log({
       status: 400,
       error: err.message
